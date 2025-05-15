@@ -1,11 +1,10 @@
 PARTE 1: Configuración del Proyecto
-
-    1. Crear solución en Visual Studio
-          Tipo: Windows Forms App (.NET Framework)
-          Nombre: SistemaGestionProductosMVC
+            Crear solución en Visual Studio    
+            Tipo: Windows Forms App (.NET Framework)
+            Nombre: SistemaGestionProductosMVC
           
-    2. Agregar carpetas manualmente dentro del proyecto:
-          Data, Entities, Factory, Forms, Services, Utils, App Config
+            Agregar carpetas manualmente dentro del proyecto:
+              Data, Entities, Factory, Forms, Services, Utils, App Config
 
 PARTE 2. Conexión a Base de Datos (ADO.NET)
           1. app.config
