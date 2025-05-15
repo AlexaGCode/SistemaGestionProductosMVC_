@@ -1,0 +1,97 @@
+﻿--Crear base de datos
+Create database GestorProductos;
+
+use GestorProductos;
+
+CREATE TABLE Roles (
+    IdRol INT PRIMARY KEY IDENTITY,
+    NombreRol NVARCHAR(50)
+);
+
+CREATE TABLE Usuarios (
+    IdUsuario INT PRIMARY KEY IDENTITY,
+    Usuario NVARCHAR(50),
+    Clave NVARCHAR(50),
+    RolId INT FOREIGN KEY REFERENCES Roles(IdRol)
+);
+
+CREATE TABLE Productos (
+    IdProducto INT PRIMARY KEY IDENTITY,
+    Nombre NVARCHAR(100),
+    Precio DECIMAL(10,2),
+    Stock INT
+);
+
+INSERT INTO Roles (NombreRol) VALUES
+('Administrador'),
+('Vendedor');
+
+INSERT INTO Usuarios (Usuario, Clave, RolId) VALUES
+('admin', 'admin123', 1),    -- Administrador
+('vendedor1', 'ventas2024', 2);  -- Vendedor
+
+go;
+--Procedimientos Almacenados
+CREATE PROCEDURE sp_Login
+  @Usuario NVARCHAR(50),
+  @Clave NVARCHAR(50)
+AS
+BEGIN
+  SELECT u.IdUsuario, u.Usuario, r.NombreRol
+  FROM Usuarios u
+  INNER JOIN Roles r ON u.RolId = r.IdRol
+  WHERE u.Usuario = @Usuario AND u.Clave = @Clave
+END;
+go
+
+
+
+EXEC sp_Login @Usuario = 'admin', @Clave = 'admin123';
+
+-- Listar
+CREATE PROCEDURE sp_ListarProductos
+AS
+BEGIN
+    SELECT * FROM Productos
+END;
+go
+
+-- Insertar
+CREATE PROCEDURE sp_InsertarProducto
+    @Nombre NVARCHAR(100),
+    @Precio DECIMAL(10,2),
+    @Stock INT
+AS
+BEGIN
+    INSERT INTO Productos (Nombre, Precio, Stock)
+    VALUES (@Nombre, @Precio, @Stock)
+END;
+go
+
+-- Actualizar
+CREATE PROCEDURE sp_ActualizarProducto
+    @IdProducto INT,
+    @Nombre NVARCHAR(100),
+    @Precio DECIMAL(10,2),
+    @Stock INT
+AS
+BEGIN
+    UPDATE Productos
+    SET Nombre = @Nombre, Precio = @Precio, Stock = @Stock
+    WHERE IdProducto = @IdProducto
+END;
+go
+
+-- Eliminar
+CREATE PROCEDURE sp_EliminarProducto
+    @IdProducto INT
+AS
+BEGIN
+    DELETE FROM Productos WHERE IdProducto = @IdProducto
+END;
+go
+
+
+
+
+EXEC sp_Login @Usuario = 'admin', @Clave = 'admin123';
